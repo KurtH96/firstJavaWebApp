@@ -7,7 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*" %> 
-<%@page import="Backend.*" %> 
+<%@page import="rychlik.dylan.website.*" %> 
 
 <%
      //If submit button is clicked
@@ -16,11 +16,7 @@
         String ClientID = request.getParameter("id");
         String ClientName = request.getParameter("Clientname");
          //Create a client object referenced in the backend
-        Client client = new Client(ClientID, ClientName);
-   //Call the MySQL update method. 
-        client.Update(ClientID, ClientName);
-
-
+        new Client().update(new String[]{ClientName, ClientID});
 %>
 
 <script>
@@ -48,21 +44,18 @@
                 <form  method="POST" action="#" >
 
                     <%  
-                        //Creates a resultset object to read the MySQL query.  
-                         ResultSet rs;
                          //Calls the id parameter which referenced the id of the record we want to update.
                         String id = request.getParameter("id");
-                        //Creates an enity object to be assigned to the client object using polymorphism. 
-                        Enity client = new Client();
-                       
-                        rs = client.SelectWhere(id);
+
+                        //Creates a resultset object to read the MySQL query.  
+                         ResultSet rs = new Client().selectWhere(id);
                        //reads through the result set. Mixed in the html to allow the record to be selected based upon a specified ID. 
                         while (rs.next()) {
 
                     %>
 
 
-                    <div alight="left">
+                    <div float="left">
                         <label class="form-label">Client Name</label>
                         <input type="text" class="form-control" placeholder="Clientname" name="Clientname" value="<%= rs.getString("Clientname")%>" id="course" required >
                     </div>
@@ -73,14 +66,14 @@
 
 
 
-                    </br>
+                    <br>
 
-                    <div alight="right">
+                    <div float="right">
                         <input type="submit" id="submit" value="submit" name="submit" class="btn btn-info">
                         <input type="reset" id="reset" value="reset" name="reset" class="btn btn-warning">
                     </div>  
 
-                    <div align="right">
+                    <div float="right">
 
                         <p><a href="indexClients.jsp">Click Back</a></p>
 

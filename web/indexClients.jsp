@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.sql.*" %> 
-<%@page import="Backend.*" %> 
+<%@page import="rychlik.dylan.website.*" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -17,15 +17,14 @@
         String ClientID = request.getParameter("ClientID");
         String Clientname = request.getParameter("ClientName");
         //Creates a client object referenced in the backend
-        Client client = new Client(ClientID, Clientname);
-        //Calls the MySQL add method. 
-        client.Add(ClientID, Clientname);
+        new Client().add(new String[]{ClientID, Clientname});
 %> 
 <script>
     alert("Record Addded!");
 </script> 
 <%        }
 %>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JSP Page</title>
@@ -36,13 +35,10 @@
 </head>
 <body>
     <style>
-
-
-
         .Home {
             margin-top: 5px;
             margin-left:  220px;
-            text-align: center;
+            text-float: center;
             font-size: 20px;
             color: #1E90FF;
             margin-right: 250px;
@@ -54,27 +50,27 @@
             margin-left: 200px;
             font-size: 20px;
             color: #1E90FF;
-            text-align: center;
+            text-float: center;
 
 
         }
     </style>
     <h1>Client Create and Update using-JSP</h1>
-    </br>
+    <br>
     <div class="row">
         <div class="col-sm-4">
             <form  method="POST" action="#" > 
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Client ID</label>
                     <input type="text" class="form-control" placeholder="ClientID" name="ClientID" id="ClientID" required >
                 </div>
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Client Name</label>
                     <input type="text" class="form-control" placeholder="ClientName" name="ClientName" id="ClientName" required >
                 </div>
-                <div alight="right">
+                <div float="right">
                     <input type="submit" id="submit" value="submit" name="submit" class="btn btn-info">
                     <input type="reset" id="reset" value="reset" name="reset" class="btn btn-warning">
                 </div>  
@@ -94,26 +90,16 @@
 
                         <%
                             //Creates a resultset object to read the MySQL query. 
-                            ResultSet rs;
-                            //Creates an enity object to be assigned to the client object using polymorphism. 
-                            Enity client = new Client();
-                            //calls the abtract select method
-                            rs = client.Select();
+                            ResultSet rs = new Client().select();
                             //read through the result set. Mixed in the html to allow the table read. 
                             while (rs.next()) {
                                 String id = rs.getString("ClientID");
                         %>
-
                         <tr>
-                           
                             <td><%=rs.getString("Clientname")%></td>
                             <td><a href="updateClients.jsp?id=<%=id%>">Edit</a></td>
-
                         </tr> 
-
-
                         <%
-
                             }
                         %>
 

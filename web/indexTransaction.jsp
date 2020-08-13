@@ -4,7 +4,7 @@
     Author     : Dylan Rychlik
 --%>
 <%@page import="java.sql.*" %> 
-<%@page import="Backend.*" %> 
+<%@page import="rychlik.dylan.website.*" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -18,10 +18,8 @@
         String Description = request.getParameter("Description");
         String ClientID = request.getParameter("ClientID");
         String Date = request.getParameter("Date");
- //Creates a transaction object referenced in the backend
-        Transaction transaction = new Transaction(TransactionID, Amount, Description, ClientID, Date);
-//Calls the MySQL add method. 
-        transaction.Add(TransactionID, Amount, Description, ClientID, Date);
+
+        new Transaction().add(new String[]{TransactionID, Amount, Description, ClientID, Date});
 %> 
 <script>
     alert("Record Addded!");
@@ -43,7 +41,7 @@
          .Home {
                  margin-top: 5px;
                margin-left:  220px;
-                text-align: center;
+                text-float: center;
                 font-size: 20px;
                 color: #1E90FF;
                margin-right: 250px;
@@ -55,7 +53,7 @@
                margin-left: 200px;
                 font-size: 20px;
                 color: #1E90FF;
-                 text-align: center;
+                 text-float: center;
                
 
             }
@@ -63,38 +61,38 @@
         
     </style>
     <h1>Transaction Create and Update using-JSP</h1>
-    </br>
+    <br>
     <div class="row">
         <div class="col-sm-4">
             <form  method="POST" action="#" > 
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Transaction ID</label>
                     <input type="text" class="form-control" placeholder="TransactionID" name="TransactionID" id="TransactionID" required >
                 </div>
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Amount</label>
                     <input type="text" class="form-control" placeholder="Amount" name="Amount" id="amount" required >
                 </div>
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Description</label>
                     <input type="text" class="form-control" placeholder="Description" name="Description" id="description" required >
                 </div>
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Client ID</label>
                     <input type="text" class="form-control" placeholder="ClientID" name="ClientID" id="ClientID" required >
                 </div>
 
-                <div alight="left">
+                <div float="left">
                     <label class="form-label">Date</label>
                     <input type="text" class="form-control" placeholder="Date" name="Date" id="date" required >
                 </div>
-                </br>
+                <br>
 
-                <div alight="right">
+                <div float="right">
                     <input type="submit" id="submit" value="submit" name="submit" class="btn btn-info">
                     <input type="reset" id="reset" value="reset" name="reset" class="btn btn-warning">
                 </div>  
@@ -117,11 +115,7 @@
 
                         <%
                              //Creates a resultset object to read the MySQL query. 
-                            ResultSet rs;
-                             //Create an enity object to be assigned to the client object using polymorphism. 
-                            Enity transaction = new Transaction();
-                             //calls the abtract select method with the 'rs' variable as the return type.
-                            rs = transaction.Select();
+                            ResultSet rs= new Transaction().select();
                              //reads through the result set. Mixed in the html to allow the table read.
                             while (rs.next()) {
                                 String id = rs.getString("TransactionID");
